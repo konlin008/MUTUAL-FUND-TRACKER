@@ -33,7 +33,7 @@ const FundDetails = () => {
     }, [])
     const saveFundHandler = async () => {
         try {
-            const res = await axios.post(`http://localhost:8080/api/v1/user/saveFund`, { schemeCode, schemeTitle: fundDetails?.scheme_name }, { withCredentials: true })
+            const res = await axios.post(`https://mutual-fund-tracker-1-29r0.onrender.com/api/v1/user/saveFund`, { schemeCode, schemeTitle: fundDetails?.scheme_name }, { withCredentials: true })
             if (res?.data) {
                 toast.success(res.data.message)
 

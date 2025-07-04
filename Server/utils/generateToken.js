@@ -8,9 +8,8 @@ const generateToken = (res, user) => {
       .status(202)
       .cookie("token", token, {
         httpOnly: true,
-        secure: false,
-        sameSite: "lax",
-        path: "/",
+        secure: true,
+        sameSite: "None",
         maxAge: 24 * 60 * 60 * 1000,
       })
       .json({ message: `welcome ${user.firstname}`, user, success: true });

@@ -29,7 +29,7 @@ const Login = () => {
     }
     const loginHandler = async () => {
         try {
-            const res = await axios.post("http://localhost:8080/api/v1/auth/login", formData, {
+            const res = await axios.post("https://mutual-fund-tracker-1-29r0.onrender.com/api/v1/auth/login", formData, {
                 withCredentials: true
             })
             if (res?.data.success) {

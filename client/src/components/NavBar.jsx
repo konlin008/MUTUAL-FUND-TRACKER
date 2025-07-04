@@ -19,7 +19,7 @@ const NavBar = () => {
     const navigate = useNavigate()
     const logoutHandler = async () => {
         try {
-            const res = await axios.get("http://localhost:8080/api/v1/auth/logout", {
+            const res = await axios.get("https://mutual-fund-tracker-1-29r0.onrender.com/api/v1/auth/logout", {
                 withCredentials: true
             })
             if (res?.data.success) {
