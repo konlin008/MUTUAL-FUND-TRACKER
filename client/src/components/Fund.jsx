@@ -4,7 +4,6 @@ import { useNavigate } from 'react-router-dom'
 
 const Fund = ({ fund }) => {
     const navigate = useNavigate()
-    console.log(fund);
 
     return (
         <div key={fund.schemeCode} onClick={() => { navigate(`/${fund.schemeCode}`) }} >

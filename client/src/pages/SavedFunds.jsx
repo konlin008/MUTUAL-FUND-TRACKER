@@ -19,7 +19,6 @@ const SavedFunds = () => {
                 { withCredentials: true }
             );
             if (res?.data) {
-                console.log(res?.data);
                 setFunds(res.data.savedFunds);
             }
         } catch (error) {
@@ -31,9 +30,6 @@ const SavedFunds = () => {
     useEffect(() => {
         getSavedFunds();
     }, []);
-    if (funds) {
-        console.log(funds);
-    }
     return (
         <div className="px-5 md:px-50 pb-20  ">
             <NavBar />
