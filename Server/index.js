@@ -10,9 +10,20 @@ const PORT = 8080;
 
 connectDb();
 
+const allowedOrigins = [
+  "http://localhost:5173",
+  "https://mutual-fund-tracker-nu.vercel.app",
+];
+
 app.use(
   cors({
-    origin: "https://mutual-fund-tracker-nu.vercel.app",
+    origin: function (origin, callback) {
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error("CORS not allowed from this origin"));
+      }
+    },
     credentials: true,
   })
 );
