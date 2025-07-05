@@ -14,9 +14,11 @@ import { Label } from "../components/ui/label";
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { toast } from 'sonner';
+import { Loader, Loader2 } from 'lucide-react';
 
 const Register = () => {
     const navigate = useNavigate()
+    const [loading, setLoading] = useState()
     const [formData, setFormData] = useState({
         username: '',
         firstname: '',
@@ -28,13 +30,23 @@ const Register = () => {
         setFormData((prev) => ({ ...prev, [name]: value }))
     }
     const handelRegister = async () => {
+        setLoading(true)
         try {
             const res = await axios.post("https://mutual-fund-tracker-1-29r0.onrender.com/api/v1/auth/register", formData)
             if (res?.data.success) {
-                toast.success(res?.data.message)
+                toast.success(res?.data.message, 'Please Login.')
+                setFormData({
+                    username: '',   
+                    firstname: '',
+                    lastname: '',
+                    password: ''
+                })
             }
+            navigate('/login')
         } catch (error) {
             toast.error(error.response.data.message)
+        } finally {
+            setLoading(false)
         }
     }
     return (
@@ -108,8 +120,12 @@ const Register = () => {
                     </form>
                 </CardContent>
                 <CardFooter className="flex-col gap-2">
-                    <Button onClick={() => handelRegister()} type="submit" className="w-full">
-                        Register
+                    <Button disabled={loading} onClick={() => handelRegister()} type="submit" className="w-full">
+                        {
+                            loading ? <>
+                                <Loader2 className="h-4 w-4 animate-spin" />
+                            </> : 'Register'
+                        }
                     </Button>
 
                 </CardFooter>

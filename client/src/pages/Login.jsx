@@ -16,9 +16,11 @@ import { useNavigate } from 'react-router-dom';
 import { toast } from 'sonner';
 import axios from 'axios';
 import useUserStore from '@/store/useUserStore';
+import { Loader2 } from 'lucide-react';
 
 const Login = () => {
     const navigate = useNavigate()
+    const [loading, setLoading] = useState()
     const [formData, setFormData] = useState({
         username: '',
         password: ''
@@ -28,6 +30,7 @@ const Login = () => {
         setFormData((prev) => ({ ...prev, [name]: value }))
     }
     const loginHandler = async () => {
+        setLoading(true)
         try {
             const res = await axios.post("https://mutual-fund-tracker-1-29r0.onrender.com/api/v1/auth/login", formData, {
                 withCredentials: true
@@ -39,6 +42,8 @@ const Login = () => {
             }
         } catch (error) {
             toast.error(error?.response.data.message)
+        } finally {
+            false
         }
     }
     return (
@@ -86,8 +91,10 @@ const Login = () => {
                     </form>
                 </CardContent>
                 <CardFooter className="flex-col gap-2">
-                    <Button type="submit" className="w-full" onClick={() => loginHandler()}>
-                        Login
+                    <Button disabled={loading} type="submit" className="w-full" onClick={() => loginHandler()}>
+                        {
+                            loading ? (<><Loader2 className='h-4 w-4 animate-spin' />Please Wait </>) : 'Login'
+                        }
                     </Button>
                 </CardFooter>
             </Card>

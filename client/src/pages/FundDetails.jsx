@@ -3,6 +3,7 @@ import NavBar from '@/components/NavBar'
 import { Button } from '@/components/ui/button'
 import { Card, CardAction, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
 import axios from 'axios'
+import { Loader2 } from 'lucide-react'
 import React, { useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { toast } from 'sonner'
@@ -12,6 +13,7 @@ const FundDetails = () => {
     const [fundDetails, setFundDetails] = useState({})
     const [fundData, setFundData] = useState()
     const [loading, setLoading] = useState()
+    const [isLoading, setIsLoading] = useState()
 
     const fetchFundDetails = async () => {
         setLoading(true)
@@ -32,6 +34,7 @@ const FundDetails = () => {
         fetchFundDetails()
     }, [])
     const saveFundHandler = async () => {
+        setIsLoading(true)
         try {
             const res = await axios.post(`https://mutual-fund-tracker-1-29r0.onrender.com/api/v1/user/saveFund`, { schemeCode, schemeTitle: fundDetails?.scheme_name }, { withCredentials: true })
             if (res?.data) {
@@ -41,6 +44,8 @@ const FundDetails = () => {
 
         } catch (error) {
             toast.error(error?.response.data.message || "Something Went Wrong")
+        } finally {
+            setIsLoading(false)
         }
     }
     return (
@@ -62,7 +67,11 @@ const FundDetails = () => {
                         <CardFooter className={'flex flex-col'}>
                             <h2 className='text-xl'> <span className='text-2xl font-semibold'>Net Asset Value:</span> ₹{parseFloat(fundData?.[0].nav).toFixed(1)}</h2>
                             <span> Last updated: {fundData?.[0].date} </span>
-                            <Button onClick={() => { saveFundHandler() }} className={'mt-3'}>Save Fund</Button>
+                            <Button disabled={isLoading} onClick={() => { saveFundHandler() }} className={'mt-3'}>{
+                                isLoading ? (<>
+                                    <Loader2 className='h-4 w-4 animate-spin' /> Please Wait
+                                </>) : 'Save Fund '
+                            }</Button>
                         </CardFooter>
                     </Card>
 

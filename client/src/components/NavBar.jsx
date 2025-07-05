@@ -23,9 +23,9 @@ const NavBar = () => {
                 withCredentials: true
             })
             if (res?.data.success) {
+                navigate('/login')
                 logout()
                 toast.success(res.data.message)
-                navigate('/login')
             }
         } catch (error) {
             toast.error(error?.response.data.message)
